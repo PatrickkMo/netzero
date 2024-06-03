@@ -25,7 +25,7 @@ function DismissibleAlert() {
   return (
     <div
         id="alert-1"
-        className="flex items-center p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50"
+        className="flex items-center p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 border"
         role="alert"
       >
         <svg
