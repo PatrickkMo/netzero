@@ -1,11 +1,9 @@
 import React from "react";
 import Icons from "../../../components/ui/Icon";
-import DismissibleAlert from './DismissibleAlert'; // Import the component
 
 const MainHeader = () => {
   return (
     <div>
-      <DismissibleAlert/>
       <div className="grid lg:grid-cols-2 items-center gap-3 mb-5">
         <h2 className="text-[30px] lg:order-1 order-2 font-medium text-black">
           Office Room emissions dashboard
