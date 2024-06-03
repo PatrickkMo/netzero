@@ -2,6 +2,7 @@ const firebase = require('firebase/app');
 const { getDatabase, ref, query, orderByKey, limitToLast, get } = require('firebase/database');
 const express = require('express');
 const cors = require('cors');
+const { signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword } = require('firebase/auth');
 
 const app = express();
 app.use(cors());
@@ -52,15 +53,53 @@ app.get('/getLatestDSet', async (req, res) => {
   }
 });
 
+app.get('/getDSet', async (req, res) => {
+  try {
+    const datasetRef = ref(db, 'device_01/1709882515');
+    const snapshot = await get(datasetRef);
 
-app.get('/getDSet', (req, res) => {
-  
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      console.log(data);
+      res.send(data);
+    } else {
+      res.status(404).send('No data found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving data');
+  }
+});
 
-  const dataset_Ref = realtimeDatabase.ref(db, 'device_01/1709882515');
-  realtimeDatabase.onValue(dataset_Ref, (snapshot) => {
-    const data = snapshot.val();
-    console.log(data)
-    res.send(data);
-  })
-  // Create a query to order the data by key (assuming timestamps are used as keys)
+app.get('/createAccount', (req, res) => {
+  const auth = getAuth(firebaseApp);
+  createUserWithEmailAndPassword(auth, 'TestEmail@gmail.com', 'TestPassword')
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+      res.send('Account created successfully');
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(error);
+      res.status(500).send(`Error creating account: ${errorMessage}`);
+    });
+});
+
+app.get('/login', (req, res) => {
+  const auth = getAuth(firebaseApp);
+  signInWithEmailAndPassword(auth, 'TestEmail@gmail.com', 'TestPassword')
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      console.log(user)
+      res.send('login successful')
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+
 });
