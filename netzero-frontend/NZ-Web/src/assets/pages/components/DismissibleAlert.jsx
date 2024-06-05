@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function DismissibleAlert() {
+function DismissibleAlert({header}) {
   // State to manage visibility
   const [visible, setVisible] = useState(false);
 
@@ -39,7 +39,7 @@ function DismissibleAlert() {
         </svg>
         <span className="sr-only">Info</span>
         <div className="ms-3 text-sm font-medium">
-          The CO2 level in your room has exceeded 500ppm!
+          The {header} in your room has exceeded XX!
         </div>
         <button
           type="button"

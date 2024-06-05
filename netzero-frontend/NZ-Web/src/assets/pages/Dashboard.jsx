@@ -27,13 +27,16 @@ const Dashboard = () => {
           <Filter />
           <div className="grid gap-[50px]">
             <Overview />
-            <TimeSeriesChart header='HCHO Levels'/>
+            <TimeSeriesChart header='Weekly HCHO level'/>
+            <TimeSeriesChart header='Weekly Light Sensor level'/>
+            <TimeSeriesChart header='Weekly CO2 level'/>
+            <TimeSeriesChart header='Weekly RH level'/>
+            <TimeSeriesChart header='Weekly Temperature level'/>
+            <TimeSeriesChart header='Weekly TVOC level'/>
           </div>
         </div>
       </div>
-
     </>
-
   )
 }
 

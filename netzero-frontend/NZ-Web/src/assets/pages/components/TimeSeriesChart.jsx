@@ -6,25 +6,55 @@ const TimeSeriesChart = ({header}) => {
 
   // nudge: logic to activate dismissibleAlert when threshold reached
 
-  const data = [
-    {
-    x: [100, 200, 500, 670, 1007],              
-    y: [1, 2, 6, 3, 7],
-    type: 'line',
-    name: 'Week 1'
-  },
+  function generateData() {
+    const numWeeks = 12;
+    const numPoints = 11; // From 0 to 1000 in increments of 100 (total 11 points)
+    const maxValue = 1007;
 
-  {
-    type: 'line', 
-    name: 'Week 2',
-    x: [12, 350, 530, 750], 
-    y: [4, 2, 5, 3, 1]
-},
-]
+    // Generate common x values with sequential intervals
+    const x = [];
+    for (let i = 0; i < numPoints; i++) {
+        x.push(i * 100);
+    }
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateWeekData(weekNumber) {
+        const y = [];
+        for (let i = 0; i < numPoints; i++) {
+            y.push(getRandomInt(1, 100));
+        }
+        return {
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: `Week ${weekNumber}`,
+            x: x,  // Use the same x values for each week
+            y: y
+        };
+    }
+
+    const data = [];
+    for (let i = 1; i <= numWeeks; i++) {
+        data.push(generateWeekData(i));
+    }
+
+    return data;
+}
+
+const data = generateData();
+console.log(data);
+
+// You can now use the `data` array as needed in your application
+
+
+// You can now use the `data` array as needed in your application
+
 
   return (
     <div className='border rounded-[7px] border-[#e6e6e6] p-4'>
-                <DismissibleAlert/> 
+                <DismissibleAlert header={header}/> 
                 <h2 className='text-[20px] font-medium flex-1'>{header}</h2>
                 <Plot 
                 data={data}
