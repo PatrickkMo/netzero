@@ -5,12 +5,6 @@ import OverviewCard from './OverviewCard';
 import Icons from '../../../components/ui/Icon';
 
 
-
-
-
-
-
-
 const Overview = () => {
   const [data, setData] = useState('  ');
 

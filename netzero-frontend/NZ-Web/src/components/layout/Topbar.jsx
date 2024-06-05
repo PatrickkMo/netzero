@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Icons from '../ui/Icon'
+
 const Topbar = ({ menuOpen }) => {
 
   return (
@@ -8,21 +9,17 @@ const Topbar = ({ menuOpen }) => {
       <Link to="#"><img src="images/logo.svg" alt="" /></Link>
       <ul className='flex items-center gap-5'>
         <li>
-          <Link className='inline-flex items-center gap-2'>
-            {Icons.Info()}
-            {Icons.ArrowDown()}
-          </Link>
-        </li>
-
-        <li>
-          <Link className='inline-flex items-center gap-2'>
-            {Icons.Setting()}
-            {Icons.ArrowDown()}
+          <Link to="/login" className='inline-flex items-center gap-2'>
+            <button 
+            className='border-[1px] border-[#DFDFDF] rounded-[8px] px-4 py-1'
+            >
+              Login
+            </button>
           </Link>
         </li>
         <li className='xl:hidden'>
           <button onClick={menuOpen}>
-            {Icons.Menu()}
+            {Icons.Menu()} 
           </button>
         </li>
       </ul>
