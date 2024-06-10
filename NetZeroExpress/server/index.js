@@ -3,9 +3,23 @@ const { getDatabase, ref, query, orderByKey, limitToLast, get } = require('fireb
 const express = require('express');
 const cors = require('cors');
 const { signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword } = require('firebase/auth');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 const app = express();
-app.use(cors());
+
+
+
+app.use(express.json())
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+const corsOptions = {
+  origin: ['http://localhost:5173', 'http://localhost'], // Add your frontend URLs here
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
+
+app.use(cors(corsOptions));
 
 const firebaseConfig = {
   apiKey: "AIzaSyDC1h57a0NiWMT9AXHwKCjj0nuxFvTpGQI",
@@ -87,19 +101,30 @@ app.get('/createAccount', (req, res) => {
     });
 });
 
-app.get('/login', (req, res) => {
+app.post('/login', async (req, res) => {
+  console.log("Login request received");
+  const { email, password } = req.body;
   const auth = getAuth(firebaseApp);
-  signInWithEmailAndPassword(auth, 'TestEmail@gmail.com', 'TestPassword')
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log(user)
-      res.send('login successful')
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
 
+  console.log("Login Attempted");
+
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    console.log(user);
+
+    // Set cookies with the UID and email
+    res.cookie('uid', user.uid, { httpOnly: true, secure: false }); // Set secure: true for production
+    res.cookie('email', user.email, { httpOnly: true, secure: false });
+    
+    res.status(200).send({ message: 'Login successful', user });
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error(`Error during login: ${errorMessage}`);
+
+    if (!res.headersSent) {
+      res.status(400).json({ errorCode, errorMessage });
+    }
+  }
 });
