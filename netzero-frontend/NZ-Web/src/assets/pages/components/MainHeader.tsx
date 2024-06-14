@@ -8,22 +8,8 @@ const MainHeader = () => {
         <h2 className="text-[30px] lg:order-1 order-2 font-medium text-black">
           Office Room emissions dashboard
         </h2>
-        <ul className="flex items-center lg:order-2 order-1 justify-end gap-4">
-          <li>
-            <button className="py-3 sm:px-4 px-2 inline-flex items-center gap-3 text-black font-Inter border border-[#E6E6E6] rounded-md text-sm">
-              <i>{Icons.EditPencil()}</i>
-              Edit dashboard
-            </button>
-          </li>
-          <li>
-            <button className="py-3 sm:px-4 px-2 inline-flex items-center gap-3 text-black font-Inter border border-[#E6E6E6] bg-[#E6E6E6] rounded-md text-sm">
-              <i>{Icons.PlusWhite()}</i>
-              Add chart
-            </button>
-          </li>
-        </ul>
       </div>
-      <p className="text-base text-black">
+      <p className="text-base text-black mb-4">
         This dashboard aggregates the data and emissions results for your
         Building across all emissions categories.
       </p>
