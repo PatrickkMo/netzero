@@ -24,7 +24,7 @@ const TimeSeriesChart = ({header}) => {
     function generateWeekData(weekNumber) {
         const y = [];
         for (let i = 0; i < numPoints; i++) {
-            y.push(getRandomInt(25, 34));
+            y.push(getRandomInt(1, 100));
         }
         return {
             type: 'scatter',
@@ -49,8 +49,12 @@ console.log(data);
 // You can now use the `data` array as needed in your application
 
 
+// You can now use the `data` array as needed in your application
+
+
   return (
     <div className='border rounded-[7px] border-[#e6e6e6] p-4'>
+                <DismissibleAlert header={header}/> 
                 <h2 className='text-[20px] font-medium flex-1'>{header}</h2>
                 <Plot 
                 data={data}
@@ -77,8 +81,7 @@ console.log(data);
                         yaxis: {
                             tickfont: {
                                 size: 22
-                            },
-                            range: [0,Math.max(...data.map(d => d.y))]
+                            }
                         }
                     }}
                 

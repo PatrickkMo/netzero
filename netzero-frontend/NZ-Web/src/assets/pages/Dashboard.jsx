@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Topbar from '../../components/layout/Topbar'
 import Sidebar from '../../components/layout/Sidebar'
 import MainHeader from './components/MainHeader'
+import Filter from './components/Filter'
 import Overview from './components/Overview'
 import TimeSeriesChart from './components/TimeSeriesChart'
 import Icons from '../../components/ui/Icon'
@@ -23,6 +24,7 @@ const Dashboard = () => {
         </div>
         <div className=" xl:flex-1 xl:p-[40px] p-4">
           <MainHeader />
+          <Filter />
           <div className="grid gap-[50px]">
             <Overview />
             <TimeSeriesChart header='Weekly HCHO level'/>
