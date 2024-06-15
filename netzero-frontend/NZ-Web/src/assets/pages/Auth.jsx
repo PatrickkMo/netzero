@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function Auth() {
+
     const [registration, setRegistration] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,45 +14,32 @@ export default function Auth() {
         setRegistration(!registration);
     };
 
-
-
-
     const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      try {
-        const response = await axios.post('http://localhost:8080/login', {
-          email,
-          password,
-          
-        },{ withCredentials: true });
-  
-        if (response.status !== 200) {
-          throw new Error(`Error: ${response.data.errorMessage}`);
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('http://localhost:8080/login', {
+                email,
+                password,
+            }, { withCredentials: true });
+
+            if (response.status !== 200) {
+                throw new Error(`Error: ${response.data.errorMessage}`);
+            }
+
+            console.log('Login successful:', response.data);
+
+            const uid = Cookies.get('uid');
+            const emailCookie = Cookies.get('email');
+
+            // Redirect to home page after successful login
+            window.location.href = '/'; // This will navigate to the home page
+
+        } catch (error) {
+            console.error('There was a problem with the login request:', error);
+            alert(`Login failed: ${error.message}`);
         }
-  
-        console.log('Login successful:', response.data);
-        
-        const uid = getCookie('uid');
-        const emailCookie = getCookie('email');
-  
-        console.log('UID:', uid);
-        console.log('Email:', emailCookie);
-  
-  
-  
-        // You can now use these cookie values in your application as needed
-      } catch (error) {
-        console.error('There was a problem with the login request:', error);
-        alert(`Login failed: ${error.message}`);
-      }
     };
-  
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    }
 
     return (
         <div className="w-full max-w-sm my-[100px] mx-auto overflow-hidden bg-white rounded-lg shadow-md">
@@ -103,7 +92,6 @@ export default function Auth() {
                         {!registration && (
                             <a href="#" className="text-sm text-gray-600 hover:text-gray-500">Forget Password?</a>
                         )}
-
                         <button type="submit" className="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                             {registration ? 'Register' : 'Sign In'}
                         </button>

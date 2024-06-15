@@ -31,7 +31,6 @@ const Overview = () => {
     { label: 'Relative humidity (%)', value: data.tvoc_sensor_rh },
     { label: 'Temperature (°C)', value: data.tvoc_sensor_temperature },
     { label: 'Ambient lighting (lux)', value: data.light_sensor },
-    { label: 'Estimated room population (pax)', value: 'XX' },
   ];
 
   return (
@@ -39,12 +38,7 @@ const Overview = () => {
       <div className="flex items-center justify-between gap-3">
         <button className='inline-flex items-center ml-auto'>{Icons.Ellipses()}</button>
       </div>
-      <h2 className='text-black text-[20px] font-medium mb-4'>Overview of environmental factors</h2>
-      <div className='grid lg:grid-cols-3 gap-4 mb-5'>
-        {emissionsData.map((emissions, index) => (
-          <TotalEmission key={index} emissions={emissions} />
-        ))}
-      </div>
+
       <div className="grid lg:grid-cols-2 gap-4">
         <OverviewCard id="1" buttonText="Indoor Air Quality" listItems={listItems1} />
         <OverviewCard id="2" buttonText="Room Conditions" listItems={listItems2} />

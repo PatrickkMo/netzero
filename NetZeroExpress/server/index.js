@@ -114,8 +114,8 @@ app.post('/login', async (req, res) => {
     console.log(user);
 
     // Set cookies with the UID and email
-    res.cookie('uid', user.uid, { httpOnly: true, secure: false }); // Set secure: true for production
-    res.cookie('email', user.email, { httpOnly: true, secure: false });
+    res.cookie('uid', user.uid, { httpOnly: false, secure: false }); // Set secure: true for production
+    res.cookie('email', user.email, { httpOnly: false, secure: false });
     
     res.status(200).send({ message: 'Login successful', user });
   } catch (error) {
@@ -126,5 +126,23 @@ app.post('/login', async (req, res) => {
     if (!res.headersSent) {
       res.status(400).json({ errorCode, errorMessage });
     }
+  }
+});
+
+app.get('/getDSetWeek', async (req, res) => {
+  try {
+    const datasetRef = ref(db, 'device_01/1709882515');
+    const snapshot = await get(datasetRef);
+
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      console.log(data);
+      res.send(data);
+    } else {
+      res.status(404).send('No data found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving data');
   }
 });

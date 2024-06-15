@@ -12,11 +12,12 @@
   "dependencies": {
     "axios": "^1.7.2",
     "cors": "^2.8.5",
+    "js-cookie": "^3.0.5",
     "plotly.js-dist": "^2.33.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-plotly.js": "^2.6.0",
-    "react-router-dom": "^6.23.0"
+    "react-router-dom": "^6.23.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

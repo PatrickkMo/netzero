@@ -8,7 +8,7 @@ const TimeSeriesChart = ({header}) => {
 
   function generateData() {
     const numWeeks = 12;
-    const numPoints = 11; // From 0 to 1000 in increments of 100 (total 11 points)
+    const numPoints = 7; // From 0 to 1000 in increments of 100 (total 11 points)
     const maxValue = 1007;
 
     // Generate common x values with sequential intervals
@@ -36,8 +36,12 @@ const TimeSeriesChart = ({header}) => {
     }
 
     const data = [];
+
+
+    // Generating data for week 1 , 2 , 3 until week 12
     for (let i = 1; i <= numWeeks; i++) {
         data.push(generateWeekData(i));
+        console.log
     }
 
     return data;
@@ -46,10 +50,6 @@ const TimeSeriesChart = ({header}) => {
 const data = generateData();
 console.log(data);
 
-// You can now use the `data` array as needed in your application
-
-
-// You can now use the `data` array as needed in your application
 
 
   return (

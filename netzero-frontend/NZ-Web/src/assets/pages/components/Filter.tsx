@@ -18,12 +18,7 @@ const Filter = () => {
 
           </div>
           <div className="ml-auto w-full text-end">
-            <button className='inline-flex items-center gap-3'>
-              <i>
-              
-              {Icons.ReOrder()}
-                </i>
-              Reorder charts</button>
+
           </div>
         </div>
   )
