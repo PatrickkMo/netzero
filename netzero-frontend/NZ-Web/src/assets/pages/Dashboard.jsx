@@ -7,6 +7,7 @@ import Overview from './components/Overview';
 import TimeSeriesChart from './components/TimeSeriesChart';
 import Icons from '../../components/ui/Icon';
 import DismissibleAlert from './components/DismissibleAlert';
+import Sensors from './components/Sensors';
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -18,6 +19,7 @@ const getCookie = (name) => {
 const Dashboard = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [uidSession, setUidSession] = useState(false);
 
   const toggleSidebar = () => {
     setToggleMenu(!toggleMenu);
@@ -31,6 +33,7 @@ const Dashboard = () => {
     console.log('UID:', uid);
     if (uid!=null) {
       setLoggedIn(true)
+      setUidSession(uid)
     }
 
   }, []);
@@ -44,9 +47,14 @@ const Dashboard = () => {
           <Sidebar toggleMenu={toggleMenu} />
         </div>
         <div className="xl:flex-1 xl:p-[40px] p-4">
-          <MainHeader />
-          <Filter />
-          <div className="grid gap-[50px]">
+          <MainHeader /> 
+
+          {/* Sensors should render all available sensors available for current user session */}
+          {/* setCurrentSensor method should be passed into Sensors so that the dashboard sensor session is displayed within */}
+
+          <Sensors />
+   
+          <div className="grid gap-[50px] mt-10">
             <Overview />
             <TimeSeriesChart header='Weekly HCHO level' />
             <TimeSeriesChart header='Weekly Light Sensor level' />
