@@ -66,9 +66,11 @@ app.get('/', (req, res) => {
   res.send('Hello from our server!');
 });
 
-app.get('/getLatestDSet', async (req, res) => {
+app.post('/getLatestDSet', async (req, res) => {
   try {
-    const datasetRef = ref(dbSensors, device_no);
+    console.log("Yes called")
+    console.log(req.body.currentSensor)
+    const datasetRef = ref(dbSensors, "device_"+req.body.currentSensor);
     const latestQuery = query(datasetRef, orderByKey(), limitToLast(1));
     const snapshot = await get(latestQuery);
 
@@ -87,9 +89,9 @@ app.get('/getLatestDSet', async (req, res) => {
   }
 });
 
-app.get('/getDSet', async (req, res) => {
+app.post('/getDSet', async (req, res) => {
   try {
-    const datasetRef = ref(dbSensors, 'device_01/1709882515');
+    const datasetRef = ref(dbSensors, req.body.sensor+'/1709882515');
     const snapshot = await get(datasetRef);
 
     if (snapshot.exists()) {
@@ -130,8 +132,8 @@ app.post('/login', async (req, res) => {
     console.log(user);
 
     // Set cookies with the UID and email
-    res.cookie('uid', user.uid, { httpOnly: true, secure: false }); // Set secure: true for production
-    res.cookie('email', user.email, { httpOnly: true, secure: false });
+    res.cookie('uid', user.uid, { httpOnly: false, secure: false }); // Set secure: true for production
+    res.cookie('email', user.email, { httpOnly: false, secure: false });
     
     res.status(200).send({ message: 'Login successful', user });
   } catch (error) {

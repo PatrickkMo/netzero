@@ -21,13 +21,13 @@ const Dashboard = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [uidSession, setUidSession] = useState(false);
 
+  const [currentSensor, setCurrentSensor] = useState(null);
+
   const toggleSidebar = () => {
     setToggleMenu(!toggleMenu);
   };
 
   useEffect(() => {
-
-    
     // Usage
     const uid = getCookie('uid');
     console.log('UID:', uid);
@@ -35,8 +35,13 @@ const Dashboard = () => {
       setLoggedIn(true)
       setUidSession(uid)
     }
-
   }, []);
+
+  useEffect(() => {
+
+    console.log(currentSensor)
+
+  }, [currentSensor]);
 
   return (
     <>
@@ -52,10 +57,10 @@ const Dashboard = () => {
           {/* Sensors should render all available sensors available for current user session */}
           {/* setCurrentSensor method should be passed into Sensors so that the dashboard sensor session is displayed within */}
 
-          <Sensors />
+          <Sensors setCurrentSensor={setCurrentSensor}/>
    
           <div className="grid gap-[50px] mt-10">
-            <Overview />
+            <Overview currentSensor={currentSensor}/>
             <TimeSeriesChart header='Weekly HCHO level' />
             <TimeSeriesChart header='Weekly Light Sensor level' />
             <TimeSeriesChart header='Weekly CO2 level' />

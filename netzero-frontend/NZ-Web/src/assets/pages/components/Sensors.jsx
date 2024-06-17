@@ -23,7 +23,7 @@ const getSensors = async (idQuery, setSensors) => {
   }
 };
 
-const Sensors = () => {
+const Sensors = ({setCurrentSensor}) => {
   const [uidSession, setUidSession] = useState(null);
   const [sensors, setSensors] = useState([]);
 
@@ -41,7 +41,7 @@ const Sensors = () => {
     <div>
       <div className="grid lg:grid-cols-4 items-center gap-3 mb-5 mt-10">
         {sensors.map((sensor, index) => (
-          <button key={index} className="bg-white shadow-sm hover:shadow-md focus:bg-gray-100 text-sm font-bold py-2 px-4 rounded border border-gray-300">
+          <button onClick={ () => {setCurrentSensor(sensor)} } key={index} className="bg-white shadow-sm hover:shadow-md focus:bg-gray-100 text-sm font-bold py-2 px-4 rounded border border-gray-300">
             {sensor} {/* Assuming sensor is the sensor name */}
           </button>
         ))}

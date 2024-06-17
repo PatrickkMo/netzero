@@ -5,11 +5,15 @@ import OverviewCard from './OverviewCard';
 import Icons from '../../../components/ui/Icon';
 
 
-const Overview = () => {
+const Overview = ({currentSensor}) => {
   const [data, setData] = useState('  ');
 
+  useEffect(()=> {
+    console.log(currentSensor)
+  },[currentSensor])
+
   useEffect(() => {
-    axios.get('http://localhost:8080/getLatestDSet')
+    axios.post('http://localhost:8080/getLatestDSet', {currentSensor})
       .then(response => {
         console.log(response.data.hcho_sensor)
         setData(response.data);
@@ -18,7 +22,7 @@ const Overview = () => {
       .catch(error => {
         console.error('Error:', error);
       });
-  }, []);
+  }, [currentSensor]);
 
   const emissionsData = ['XX,XXX.XX'];
   const listItems1 = [
