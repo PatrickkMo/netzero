@@ -10,16 +10,24 @@ const getCookie = (name) => {
 
 const getSensors = async (idQuery, setSensors) => {
   try {
+    console.log("Trying to fetch sensors data...");
+
     const response = await axios.post('http://localhost:8080/getSensors', { idQuery });
 
     if (response.status === 200) {
-      console.log('Sensors data:', Object.keys(response.data));
-      setSensors(Object.keys(response.data));
+      const data = response.data;
+      if (data && Object.keys(data).length > 0) {
+        console.log('Sensors data:', data);
+        setSensors(Object.keys(data));
+      } else {
+        console.error('No sensor data found for the provided idQuery.');
+        setSensors([]);
+      }
     } else {
       console.error('Error fetching sensors:', response.statusText);
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error:', error.message || error);
   }
 };
 

@@ -8,6 +8,8 @@ import TimeSeriesChart from './components/TimeSeriesChart';
 import Icons from '../../components/ui/Icon';
 import DismissibleAlert from './components/DismissibleAlert';
 import Sensors from './components/Sensors';
+import axios from 'axios';
+import Nudge from './components/Nudge'; // Adjust the path as necessary
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -16,32 +18,54 @@ const getCookie = (name) => {
   return null;
 };
 
+const getCredentials = async (userQuery, setNudgeType) => {
+  try {
+    console.log("Trying to fetch credentials data...");
+
+    const response = await axios.post('http://localhost:8080/getCredentials', { userQuery });
+
+    if (response.status === 200) {
+      const data = response.data;
+      if (data && Object.keys(data).length > 0) {
+        console.log('Credentials data:', data["Nudges"]);
+        setNudgeType(data["Nudges"])
+      } else {
+        console.error('No credentials data found for the provided userQuery.');
+        setNudgeType([]);
+      }
+    } else {
+      console.error('Error fetching credentials:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error:', error.message || error);
+  }
+};
+
 const Dashboard = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [uidSession, setUidSession] = useState(false);
-
+  const [uidSession, setUidSession] = useState('');
   const [currentSensor, setCurrentSensor] = useState(null);
+  const [nudgeType, setNudgeType] = useState(null);
 
   const toggleSidebar = () => {
     setToggleMenu(!toggleMenu);
   };
 
   useEffect(() => {
-    // Usage
     const uid = getCookie('uid');
     console.log('UID:', uid);
-    if (uid!=null) {
-      setLoggedIn(true)
-      setUidSession(uid)
+    if (uid != null) {
+      setLoggedIn(true);
+      setUidSession(uid);
+      getCredentials(uid, setNudgeType);
+      
     }
   }, []);
 
   useEffect(() => {
-
-    console.log(currentSensor)
-
-  }, [currentSensor]);
+  
+  }, [nudgeType]);
 
   return (
     <>
@@ -60,7 +84,9 @@ const Dashboard = () => {
           <Sensors setCurrentSensor={setCurrentSensor}/>
    
           <div className="grid gap-[50px] mt-10">
+          <Nudge nudgeType = {nudgeType} />
             <Overview currentSensor={currentSensor}/>
+            
             <TimeSeriesChart header='Weekly HCHO level' />
             <TimeSeriesChart header='Weekly Light Sensor level' />
             <TimeSeriesChart header='Weekly CO2 level' />

@@ -15,12 +15,16 @@ const Overview = ({currentSensor}) => {
   useEffect(() => {
     axios.post('http://localhost:8080/getLatestDSet', {currentSensor})
       .then(response => {
-        console.log(response.data.hcho_sensor)
         setData(response.data);
-        console.log('data :',data.hcho_sensor)
       })
       .catch(error => {
-        console.error('Error:', error);
+      });
+
+      axios.post('http://localhost:8080/getWeeksData', {currentSensor})
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
       });
   }, [currentSensor]);
 

@@ -10,6 +10,18 @@ const getCookie = (name) => {
   return null;
 };
 
+const deleteCookie = (name) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
+
+
+const logOut = () => {
+  deleteCookie('uid');
+  deleteCookie('email');
+  window.location.reload();
+};
+
+
 const Topbar = ({ menuOpen }) => {
   const [loggedIn, setLoggedIn] = useState(getCookie('uid'));
 
@@ -19,7 +31,11 @@ const Topbar = ({ menuOpen }) => {
       <ul className='flex items-center gap-5'>
         {/* Conditional rendering based on login state */}
         {loggedIn ? (
-          <li>Logged in as {loggedIn}</li>
+          
+            <button onClick={logOut} className='border-[1px] border-[#DFDFDF] rounded-[8px] px-4 py-1'>
+              Logout
+            </button>
+
         ) : (
           <li>
             <Link to='/login' className='inline-flex items-center gap-2'>
