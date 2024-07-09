@@ -182,57 +182,26 @@ app.post('/getCredentials', async (req, res) => {
 });
 
 app.post('/getWeeksData', async (req,res) => {
-  console.log('called')
-  const now = new Date(); // Create a Date object to get current date and time
-  
 
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const dayOfWeekIndex = now.getDay();
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const dayOfWeek = daysOfWeek[now.getDay()];
-  const daysPassed = dayOfWeekIndex + 1;
-
-  // Calculate total minutes since midnight
-
-  console.log('hours ',{hours})
-  const totalMinutes = parseInt(hours * 60) + parseInt(minutes);
-  console.log(totalMinutes)
-  
-  // Calculate number of 10-minute intervals passed
-
-  const intervalsPassed = Math.floor(totalMinutes / 10);
-
-
-
-  console.log(dayOfWeek)
 
   try {
     const datasetRef = ref(dbSensors, 'device_01');
-  
+
     // Get the start and end timestamps for the current day
-    const today = new Date();
-    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).getTime() - 1;
-  
-    // Query to get entries added today based on timestamp
-    const todayQuery = query(
-      datasetRef,
-      orderByChild('timestamp'),
-      startAt(startOfDay),
-      endAt(endOfDay)
-    );
-  
+
     // Retrieve data
-    const snapshot = await get(todayQuery);
-  
+    const snapshot = await get(datasetRef);
+
     if (snapshot.exists()) {
       const data = snapshot.val();
       const dataArray = Object.values(data); // Convert object to array if needed
-  
+
       // Process dataArray as needed
       res.status(200).send(dataArray);
+      console.log(dataArray)
+      console.log("Data's been sent back")
     } else {
+      console.log("Data's not found")
       res.status(404).send('No data found');
     }
   } catch (error) {
