@@ -10,7 +10,7 @@ const getCookie = (name) => {
 
 const TimeSeriesChart = ({ header }) => {
     const [loggedIn, setLoggedIn] = useState(getCookie('uid'));
-    const [selectedHeader, setSelectedHeader] = useState('Header 1');
+    const [selectedHeader, setSelectedHeader] = useState('Carbon dioxide (ppm)');
     const [alertVisible, setAlertVisible] = useState(false);
   
     const headers = ['Carbon dioxide (ppm)', 'Relative humidity (%)', 'Volatile organic compounds (µg/m³)'];

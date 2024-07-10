@@ -188,7 +188,6 @@ app.post('/getWeeksData', async (req,res) => {
     const datasetRef = ref(dbSensors, 'device_01');
 
     // Get the start and end timestamps for the current day
-
     // Retrieve data
     const snapshot = await get(datasetRef);
 
@@ -198,8 +197,7 @@ app.post('/getWeeksData', async (req,res) => {
 
       // Process dataArray as needed
       res.status(200).send(dataArray);
-      console.log(dataArray)
-      console.log("Data's been sent back")
+
     } else {
       console.log("Data's not found")
       res.status(404).send('No data found');
@@ -208,69 +206,7 @@ app.post('/getWeeksData', async (req,res) => {
     console.error('Error retrieving data:', error);
     res.status(500).send('Error retrieving data');
   }
-  // Total number of entries to obtain:
-
-  // to get data for current week:
-  // days of week passed * 144 + intervals that have passed ( number of intervals this week )
-
-  // and 11088 more intervals for past 11 weeks
-
-  // const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  // const timeSeriesData = {};
-
-  // // Create entries from 1 to 12, each containing a sub-dictionary for days of the week
-  // for (let i = 1; i <= 12; i++) {
-  //   timeSeriesData[i] = {};
-  //   daysOfWeek.forEach(day => {
-  //     timeSeriesData[i][day] = {}; // Initialize each day with an empty object
-  //   });
-  // }
-
-  // console.log(timeSeriesData);
-
-
-
-  // // Format the time
-  // const hours = String(now.getHours()).padStart(2, '0');
-  // const minutes = String(now.getMinutes()).padStart(2, '0');
-  // const seconds = String(now.getSeconds()).padStart(2, '0');
-
-  // console.log(day)
-
-  // const datasetRef = ref(dbUsers, `Users/${userQuery}/Credentials`);
-
-  // const snapshot = await get(datasetRef);
-
-  // try {
-  //   const userQuery = req.body.userQuery;
-
-  //   if (!userQuery) {
-  //     return res.status(400).json({ error: 'idQuery is required' });
-  //   }
-
-  //   const datasetRef = ref(dbUsers, `Users/${userQuery}/Credentials`);
-
-  //   const snapshot = await get(datasetRef);
-
-  //   if (snapshot.exists()) {
-  //     res.status(200).json(snapshot.val());
-  //     console.log("Snapshot : ")
-  //     console.log(snapshot.val())
-  //   } else {
-  //     res.status(404).json({ message: 'No data found' });
-  //   }
-  // } catch (error) {
-  //   console.error(error);
-  //   res.status(500).json({ error: 'Internal Server Error' });
-  // }
-
-  // Step 1
-  // Get today's day
-  // Get Average of today's day
   
-  // Get data for passed days in the week
-
-  // Get data for past 5 weeks of data
 
 })
 

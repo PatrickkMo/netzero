@@ -72,9 +72,7 @@ const Dashboard = () => {
       <Topbar menuOpen={toggleSidebar} loggedIn={loggedIn} />
 
       <div className="xl:flex flex-1">
-        <div className="xl:min-h-screen">
-          <Sidebar toggleMenu={toggleMenu} />
-        </div>
+
         <div className="xl:flex-1 xl:p-[40px] p-4">
           <MainHeader /> 
 
@@ -87,12 +85,8 @@ const Dashboard = () => {
           <Nudge nudgeType = {nudgeType} />
             <Overview currentSensor={currentSensor}/>
             
-            <TimeSeriesChart header='Weekly HCHO level' />
-            <TimeSeriesChart header='Weekly Light Sensor level' />
-            <TimeSeriesChart header='Weekly CO2 level' />
-            <TimeSeriesChart header='Weekly RH level' />
-            <TimeSeriesChart header='Weekly Temperature level' />
-            <TimeSeriesChart header='Weekly TVOC level' />
+            <TimeSeriesChart />
+
           </div>
         </div>
       </div>

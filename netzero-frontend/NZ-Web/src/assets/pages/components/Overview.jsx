@@ -9,16 +9,15 @@ const Overview = ({currentSensor}) => {
   const [data, setData] = useState('  ');
 
   const processData = (dataArray) => {
-    console.log("Starting data processing...");
   
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const timeSeriesData = {};
+    const timeSeriesDataCO2 = {};
   
     // Initialize timeSeriesData structure for months 1 to 12 and days of the week
     for (let i = 1; i <= 12; i++) {
-      timeSeriesData[i] = {};
+      timeSeriesDataCO2[i] = {};
       daysOfWeek.forEach(day => {
-        timeSeriesData[i][day] = 0; // Initialize day with 0
+        timeSeriesDataCO2[i][day] = 0; // Initialize day with 0
       });
     }
   
@@ -29,19 +28,16 @@ const Overview = ({currentSensor}) => {
   
     const totalMinutes = hours * 60 + minutes;
     const intervalsPassed = Math.floor(totalMinutes / 10);
-  
-    // Calculate today's average
+
     let tempSum = 0;
     for (let interval = 0; interval < intervalsPassed; interval++) {
       tempSum += dataArray[interval]["tvoc_sensor_co2"];
-      console.log("Loading")
     }
     const todayAverage = intervalsPassed > 0 ? tempSum / intervalsPassed : 0;
-    timeSeriesData[12][dayOfWeek] = todayAverage;
+    timeSeriesDataCO2[12][dayOfWeek] = todayAverage;
   
     let parsedIndex = intervalsPassed; // Start from intervals passed for subsequent days processing
-  
-    // Process previous days of the current week (week 12)
+
     for (let dayIndex = now.getDay(); dayIndex >= 0; dayIndex--) {
       const day = daysOfWeek[dayIndex];
       let dayAverage = 0;
@@ -49,13 +45,11 @@ const Overview = ({currentSensor}) => {
       for (let dayInterval = 0; dayInterval < 144; dayInterval++) {
         dayAverage += dataArray[parsedIndex]["tvoc_sensor_co2"];
         parsedIndex++;
-        console.log("Loading..")
       }
       dayAverage = dayAverage / 144;
-      timeSeriesData[12][day] = dayAverage;
+      timeSeriesDataCO2[12][day] = dayAverage;
     }
-    
-    console.log("Escaped")
+
     // Reset currentDate to the last day of the previous week (Saturday) for the next iteration
 
     // Process remaining weeks (from 11 to 1)
@@ -70,11 +64,10 @@ const Overview = ({currentSensor}) => {
           for (let dayInterval = 0; dayInterval < 144; dayInterval++) {
             dayAverage += dataArray[parsedIndex]["tvoc_sensor_co2"];
             parsedIndex++;
-            console.log("Loading...");
           }
     
           dayAverage = dayAverage / 144;
-          timeSeriesData[week][day] = dayAverage;
+          timeSeriesDataCO2[week][day] = dayAverage;
         } catch (error) {
           console.error("Error processing data:", error);
           // Handle error appropriately, e.g., break out of loop or set default value
@@ -128,9 +121,7 @@ const Overview = ({currentSensor}) => {
 
   return (
     <div className='border rounded-[7px] border-[#e6e6e6] p-5'>
-      <div className="flex items-center justify-between gap-3">
-        <button className='inline-flex items-center ml-auto'>{Icons.Ellipses()}</button>
-      </div>
+
 
       <div className="grid lg:grid-cols-2 gap-4">
         <OverviewCard id="1" buttonText="Indoor Air Quality" listItems={listItems1} />
